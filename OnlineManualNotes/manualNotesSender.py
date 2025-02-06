@@ -29,7 +29,7 @@ class TCP_client():
             cmdd.Send()
 
 if __name__ == "__main__":
-    configFilePath = os.getcwd() + '\\OnlineManualNotes\\Config\\config_communication.yaml'
+    configFilePath = os.getcwd() + '\\Config\\config_communication.yaml'
     with open(configFilePath) as f:
         _config = yaml.safe_load(f)
 
