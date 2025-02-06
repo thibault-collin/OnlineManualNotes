@@ -1,0 +1,19 @@
+gdp_version : '3_5'
+
+# Communication
+client_name: 'OnlineNotes_'
+gdp_ip :
+- '127.0.0.1'
+- '127.0.0.1'
+gdp_http_port:
+- '8080'
+- '8000'
+gdp_key:
+- '12345abcde'
+- '12345abcde'
+
+## TCP servers for logs online
+TCP_log_ip :
+- '127.0.0.1'
+TCP_log_port :
+- '8085'
