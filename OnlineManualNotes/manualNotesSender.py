@@ -13,13 +13,91 @@ class TCP_client():
     def communicating_with_mapper(self):
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.connect((self.__tcp_ip, int(self.__tcp_port)))
+                #s.connect((self.__tcp_ip, int(self.__tcp_port)))
+                sFlag = None
                 while True:
-                    answer = input('s or m: ')
-                    self.__sendToGDPs(answer)
-                    s.sendall(answer.encode())
-                    data = s.recv(1024)
-                    print(f"Received {data!r}")
+                    if sFlag is None:
+                        answer = input('s or m: ')
+                    elif sFlag == 's':
+                        answer = input('1-shoulder, 2-arm, 3-forearm, 4-hand, 5-finger, 6-thumb: ')
+                    elif sFlag == 'm':
+                        answer = input('1-DELant, 2-DELmed, 3-LD, 4-PM, 5-BB, 6-TB, 7-BR, 8-FD, 9-FC, 10-ED, 11-EC, 12-The: ')
+                    match answer:
+                        case 's':
+                            sFlag = 's'
+                            answer = 's'
+                        case 'm':
+                            sFlag = 'm'
+
+                        case '1' if sFlag == 's':
+                            sFlag = None
+                            answer = 'shoulder'
+                        case '2' if sFlag == 's':
+                            sFlag = None
+                            answer = 'arm'
+                        case '3' if sFlag == 's':
+                            sFlag = None
+                            answer = 'forearm'
+                        case '4' if sFlag == 's':
+                            sFlag = None
+                            answer = 'hand'
+                        case '5' if sFlag == 's':
+                            sFlag = None
+                            answer = 'finger'
+                        case '6' if sFlag == 's':
+                            sFlag = None
+                            answer = 'thumb'
+
+                        case '1' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'DELant'
+                        case '2' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'DELmed'
+                        case '3' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'LD'
+                        case '4' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'PM'
+                        case '5' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'BB'
+                        case '6' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'TB'
+                        case '7' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'BR'
+                        case '8' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'FD'
+                        case '9' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'FC'
+                        case '10' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'ED'
+                        case '11' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'EC'
+                        case '12' if sFlag == 'm':
+                            sFlag = None
+                            answer = 'The'
+
+                        case _:
+                            sFlag = None
+
+                    #s.sendall(answer.encode())
+                    #data = s.recv(1024)
+                    if answer == 's':
+                        msg2GDP = 'sensation'
+                    elif answer == 'm':
+                        msg2GDP = 'motor activity'
+                    else:
+                        msg2GDP = answer
+                    self.__sendToGDPs(msg2GDP)
+                    #print(f"Received {data!r}")
         except KeyboardInterrupt:
             print('Connection closed.')
 

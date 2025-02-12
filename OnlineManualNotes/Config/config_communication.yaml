@@ -1,19 +1,22 @@
 gdp_version : '3_5'
 
-# Communication
+# GDP Communication
 client_name: 'OnlineNotes_'
 gdp_ip :
+- '10.16.15.85'
 - '127.0.0.1'
-- '127.0.0.1'
+- '10.16.15.85'
 gdp_http_port:
+- '8091'
 - '8080'
-- '8000'
+- '8092'
 gdp_key:
+- '12345abcde'
 - '12345abcde'
 - '12345abcde'
 
 ## TCP servers for logs online
 TCP_log_ip :
-- '127.0.0.1'
+- '10.16.15.85'
 TCP_log_port :
-- '8085'
+- '8093'
