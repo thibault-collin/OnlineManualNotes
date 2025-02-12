@@ -4,16 +4,18 @@ import yaml
 from gdp_client import GdpHttpClient
 
 class TCP_client():
-    def __init__(self, tcp_ip, tcp_port, gdp_clients):
+    def __init__(self, tcp_ip, tcp_port, gdp_clients, tcp_flag = False):
         self.__tcp_ip = tcp_ip
         self.__tcp_port = tcp_port
         self.__gdp_clients = gdp_clients
+        self.__tcp_flag = tcp_flag
         self.communicating_with_mapper()
 
     def communicating_with_mapper(self):
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                #s.connect((self.__tcp_ip, int(self.__tcp_port)))
+                if self.__tcp_flag:
+                    s.connect((self.__tcp_ip, int(self.__tcp_port)))
                 sFlag = None
                 while True:
                     if sFlag is None:
@@ -28,6 +30,8 @@ class TCP_client():
                             answer = 's'
                         case 'm':
                             sFlag = 'm'
+                        case 'sp':
+                            answer = 'spasticity'
 
                         case '1' if sFlag == 's':
                             sFlag = None
@@ -88,16 +92,21 @@ class TCP_client():
                         case _:
                             sFlag = None
 
-                    #s.sendall(answer.encode())
-                    #data = s.recv(1024)
+                    if self.__tcp_flag:
+                        s.sendall(answer.encode())
+                        data = s.recv(1024)
+
                     if answer == 's':
                         msg2GDP = 'sensation'
                     elif answer == 'm':
                         msg2GDP = 'motor activity'
                     else:
                         msg2GDP = answer
+
                     self.__sendToGDPs(msg2GDP)
-                    #print(f"Received {data!r}")
+
+                    if self.__tcp_flag:
+                        print(f"Received {data!r}")
         except KeyboardInterrupt:
             print('Connection closed.')
 
@@ -115,4 +124,4 @@ if __name__ == "__main__":
     for c in range(len(_config["gdp_ip"])):
         gdp_clients.append(GdpHttpClient.GdpHttpClient(_config["client_name"], _config["gdp_ip"][c], _config["gdp_http_port"][c], _config["gdp_key"][c]))
 
-    TCP_client(_config["TCP_log_ip"][0], _config["TCP_log_port"][0], gdp_clients)
+    TCP_client(_config["TCP_log_ip"][0], _config["TCP_log_port"][0], gdp_clients, _config["TCP_flag"][0])

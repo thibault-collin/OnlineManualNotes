@@ -16,6 +16,8 @@ gdp_key:
 - '12345abcde'
 
 ## TCP servers for logs online
+TCP_flag:
+- False
 TCP_log_ip :
 - '10.16.15.85'
 TCP_log_port :
